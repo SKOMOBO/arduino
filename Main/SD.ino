@@ -18,6 +18,7 @@ File myFile;
 void flash_save(char data[]){
     //if the file opened okay, write to it
   if (myFile) {
+
     int len = strlen_P(data);
     for(int k = 0; k < len; k++){
         // the_char = pgm_read_byte_near(data + k);
@@ -98,10 +99,10 @@ void Save_sensors() {
 
     show_P("Saving data\nto SD");
     // snprintf_P(Buffer, 66, PSTR("%d:%d:%d %d/%d/%d,%c,%d.%d,%d.%d,%d,%d,%d,%d\n"), hour, minute, second, day, month, year, PIR, (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PM1, PM25, PM10);
-    snprintf_P(Buffer, 22, PSTR("%d:%d:%d %d/%d/%d,%c"), hour, minute, second, day, month, year, PIR);
+    snprintf_P(Buffer, 30, PSTR("%d:%d:%d %d/%d/%d,%c"), hour, minute, second, day, month, year, PIR);
     Save(Buffer);
 
-    snprintf_P(Buffer, 28, PSTR(",%d.%d,%d.%d,%d,%d,%d,%d\n"), (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PM1, PM25, PM10);
+    snprintf_P(Buffer, 50, PSTR(",%d.%d,%d.%d,%d,%d,%d,%d\n"), (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PM1, PM25, PM10);
     
     Save(Buffer);
     show_P("Saved data\nto SD");
