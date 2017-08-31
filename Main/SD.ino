@@ -85,9 +85,9 @@ void Show_sensors(){
     Show_sensor(PSTR("Temperature: %d.%d"), 21, (int)temperature, (int)(temperature * 100) %100);
     Show_sensor(PSTR("Humidity: %d.%d"), 17, (int)humidity, (int)(humidity * 100) % 100);
     Show_sensor(PSTR("CO2: %d"), 10, CO2);
-    Show_sensor(PSTR("Dust PM1: %d"), 15, PM1);
-    Show_sensor(PSTR("Dust PM2.5: %d"), 15, PM25);
-    Show_sensor(PSTR("Dust PM10: %d"), 15, PM10);
+    Show_sensor(PSTR("Dust PM1: %d"), 20, PM1);
+    Show_sensor(PSTR("Dust PM2.5: %d"), 20, PM25);
+    Show_sensor(PSTR("Dust PM10: %d"), 20, PM10);
 
 }
 

@@ -103,7 +103,7 @@ void send_data(){
   // may need to make seperate get requests so that it can cope
 
   // maybe make one route for each sensor value??
-  snprintf_P(Buffer, 99, PSTR("GET /" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d_%d.%d_%d.%d_%d_%c HTTP/1.1\n"),  year, month, day, hour, minute, second, PM1, PM25, PM10,(int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
+  snprintf_P(Buffer, 65, PSTR("GET /" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d_%d.%d_%d.%d_%d_%c HTTP/1.1\n"),  year, month, day, hour, minute, second, PM1, PM25, PM10,(int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
   // snprintf_P(Buffer, 40, PSTR("GET /" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d"),  year, month, day, hour, minute, second, PM1, PM25, PM10);
   client.print(Buffer);
   // snprintf_P(Buffer, 28, PSTR("%d.%d_%d.%d_%d_%c HTTP/1.1\n"), (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
