@@ -22,7 +22,7 @@ int CO2 = 0;
 unsigned int PM1 = 0, PM25 = 0, PM10 =0;
 char PIR = '0';
 // char Buffer[54] = "\0";
-char Buffer[66] = "\0";
+char Buffer[100] = "\0";
 
 /// make sd buffer smaller by chunking then reduce global buffer
 
