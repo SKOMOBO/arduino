@@ -95,26 +95,97 @@ void WIFI_send()
 
 // void reboot_connection()
 
-void send_data(){
-   // if there's a successful connection
 
+int port = 80;
+char protocol[5] = "\0";
+
+void store_config(){
+  if(SD_available){
+    myFile = SD.open(F("config.txt"), FILE_WRITE);
+
+    // store data in buffer
+    sprintf_P(Buffer, PSTR("PORT %d\nSERVER %s\nPROTOCOL %s"), port,  Buffer, protocol);
+
+    // write the variables into the config file
+    Save(Buffer);
+  }
+}
+
+
+void update_config(){
+  // connect to massey
+  strncpy_P(Buffer, PSTR("seat-skomobo.massey.ac.nz"), 26);
+
+  if (client.connect(Buffer, 80)) {
+
+    strncpy_P(Buffer, PSTR("GET /config HTTP/1.1\n"), 23);
+    client.print(Buffer);
+    strncpy_P(Buffer, PSTR("Host: seat-skomobo.massey.ac.nz\r\n"), 34);
+    client.print(Buffer);
+    strncpy_P(Buffer, PSTR("Connection: close\r\n\r\n"), 22);
+    client.print(Buffer);
+
+    // debugging for now
+    Serial.println(client.read());
+
+    show_P("Updating config");
+
+    // variables get reassigned here
+
+    // server gets stored in buffer
+
+    // if there is no reply we check the config file
+    
+    //if(reply){
+    store_config();
+    //}
+    //else{
+    // read_config();
+    // if(data_in_config){
+      // assign config values
+    //}
+    // else{
+//      reassign default values
+    //}
+    //}
+
+
+  }else{
+    show_P("No update");
+  }
+
+
+}
+
+
+void tcp_send_data(){
+  // if there's a successful connection
+
+ show_P("Sending data\nto server");
+ 
+ // First variable is the tcp 'route'
+
+ snprintf_P(Buffer, 70, PSTR("0_" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d_%d.%d_%d.%d_%d_%c\n"),  year, month, day, hour, minute, second, PM1, PM25, PM10,(int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
+ client.print(Buffer);
+
+ show_P("Data sent");
+ // note the time that the connection was made
+ lastConnectionTime = millis();
+
+}
+
+void http_send_data(){
+ 
   show_P("Sending data\nto server");
   
-  // may need to make seperate get requests so that it can cope
-
-  // maybe make one route for each sensor value??
-  snprintf_P(Buffer, 65, PSTR("GET /" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d_%d.%d_%d.%d_%d_%c HTTP/1.1\n"),  year, month, day, hour, minute, second, PM1, PM25, PM10,(int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
-  // snprintf_P(Buffer, 40, PSTR("GET /" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d"),  year, month, day, hour, minute, second, PM1, PM25, PM10);
+  snprintf_P(Buffer, 70, PSTR("GET /" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d_%d.%d_%d.%d_%d_%c HTTP/1.1\n"),  year, month, day, hour, minute, second, PM1, PM25, PM10,(int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
   client.print(Buffer);
-  // snprintf_P(Buffer, 28, PSTR("%d.%d_%d.%d_%d_%c HTTP/1.1\n"), (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
-  // client.print(Buffer);
   strncpy_P(Buffer, PSTR("Host: seat-skomobo.massey.ac.nz\r\n"), 34);
   client.print(Buffer);
   strncpy_P(Buffer, PSTR("Connection: close\r\n\r\n"), 22);
   client.print(Buffer);
 
   show_P("Data sent");
-  // client.println();
 
   // note the time that the connection was made
   lastConnectionTime = millis();
@@ -130,12 +201,28 @@ void httpRequest()
   // move this to bottom for my own protocol
   client.stop();
 
+  show_P("Updating config");
+  update_config();
+
   show_P("Connecting\n to server");
 
-  strncpy_P(Buffer, PSTR("seat-skomobo.massey.ac.nz"), 26);
-  if (client.connect(Buffer, 80)) {
+  // strncpy_P(Buffer, PSTR("seat-skomobo.massey.ac.nz"), 26);
+    
+  //update config puts domain received from massey in buffer
+  if (client.connect(Buffer, port)) {
 
-    send_data();
+    if(strcmp_P(protocol,PSTR("TCP"))){
+        tcp_send_data();
+    }
+    else if(strcmp_P(protocol,PSTR("blue"))){
+        blue_send();
+    }
+    else{
+
+        // here if it is HTTP or an invalid protocol we just assume to use HTTP, better than
+        // it not sending anything because the protocol is wrong :)
+        http_send_data();
+    }
 
   }else{
     show_P("Server\nconnection\nlost");
@@ -143,27 +230,7 @@ void httpRequest()
     // WiFi.init(&Serial);
     WIFI_connect();
   }
-  
-  // move this to bottom for my own protocol
-  // client.stop();
-  // strncpy_P(Buffer, PSTR("seat-skomobo.massey.ac.nz"), 26);
-  // if (client.connect(Buffer, 80)) {
-  //   snprintf_P(Buffer, 37, PSTR("GET /2_" BOX_ID "_%d.%d_%d.%d_%d_%c HTTP/1.1"), (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
-  //   // layout_P("GET /2_" BOX_ID "_%i_%d_%d_%c HTTP/1.1", (int)trunc(temperature*100.0f), (int)trunc(humidity*100.0f), CO2, PIR);
-  //   send_data();
-  // }
-  // else{
-  //   show_P("Server\nconnection\nlost");
-
-  //   // WiFi.init(&Serial);
-  //   WIFI_connect();
-  // }
 
   delay(6000);
 
 }
-
-
-
-
-/// need to copy the server name to the buffer then we need to copy the data after that 

@@ -125,7 +125,7 @@ void tcpRequest()
 
   show_P("Connecting\n to server");
 
-  strncpy_P(Buffer, PSTR("seat-skomobo.massey.ac.nz"), 26);
+  strncpy_P(Buffer, PSTR("54.66.202.130"), 14);
   if (client2.connect(Buffer, 80)) {
 
     send_data2();

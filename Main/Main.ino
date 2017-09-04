@@ -27,7 +27,8 @@ void setup(){
   Time_setup();
 
   //  Wifi_setup();
-  WIFI_setup();
+  // WIFI_setup();
+  TCP_setup();
 }
 
 void loop() {

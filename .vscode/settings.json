@@ -1,6 +1,7 @@
 {
     "files.associations": {
         ".ino": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "random": "cpp"
     }
 }
