@@ -2,6 +2,10 @@
     "files.associations": {
         ".ino": "cpp",
         "utility": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "array": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp"
     }
 }
