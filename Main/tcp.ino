@@ -48,7 +48,7 @@ void TCP_connect(){
     }
     else{
       // Connect to WPA/WPA2 network
-      status2 = WiFi.begin(ssid, Buffer);
+      status2 = WiFi.begin(ssid2, Buffer);
     }
   }
   
@@ -100,10 +100,8 @@ void send_data2(){
 
   show_P("Sending data\nto server");
   
-  // may need to make seperate get requests so that it can cope
-
-  // maybe make one route for each sensor value??
-  snprintf_P(Buffer, 65, PSTR(BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d_%d.%d_%d.%d_%d_%c\n"),  year, month, day, hour, minute, second, PM1, PM25, PM10,(int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
+  // first value in formatting string is to say it is an arduino
+  snprintf_P(Buffer, 65, PSTR("0_" BOX_ID "_%d-%d-%d-%d-%d-%d_%d_%d_%d_%d.%d_%d.%d_%d_%c\n"),  year, month, day, hour, minute, second, PM1, PM25, PM10,(int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PIR);
   client2.print(Buffer);
 
   show_P("Data sent");

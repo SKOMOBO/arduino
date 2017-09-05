@@ -101,7 +101,7 @@ void Save_sensors() {
     // snprintf_P(Buffer, 66, PSTR("%d:%d:%d %d/%d/%d,%c,%d.%d,%d.%d,%d,%d,%d,%d\n"), hour, minute, second, day, month, year, PIR, (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PM1, PM25, PM10);
     snprintf_P(Buffer, 30, PSTR("%d:%d:%d %d/%d/%d,%c"), hour, minute, second, day, month, year, PIR);
     
-    myFile = SD.open(F("Box" BOX_ID ".csv"), FILE_WRITE);
+    // myFile = SD.open(F("Box" BOX_ID ".csv"), FILE_WRITE);
     Save(Buffer);
 
     snprintf_P(Buffer, 50, PSTR(",%d.%d,%d.%d,%d,%d,%d,%d\n"), (int)temperature, (int)(temperature * 100) % 100, (int)humidity, (int)(humidity * 100) % 100, CO2, PM1, PM25, PM10);
@@ -114,7 +114,8 @@ void Save_sensors() {
   }
 
   // blue_send();
-  WIFI_send();
+  // WIFI_send();
+  TCP_send();
 }
 
 void SD_setup() {
@@ -125,7 +126,6 @@ void SD_setup() {
     // print the headings for our data in the txt file
     myFile = SD.open(F("Box" BOX_ID ".csv"), FILE_WRITE);
     SD_available = true;
-
 
     // Print the headings in the csv file
     save_P("Time,Moving,Temp,Humid,CO2,Dust 1.0,Dust 2.5,Dust 10\n");

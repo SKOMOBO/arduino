@@ -1,1 +1,1 @@
-#define BOX_ID "6"
+#define BOX_ID "AWS"
