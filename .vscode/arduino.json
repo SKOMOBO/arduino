@@ -3,5 +3,5 @@
     "configuration": "cpu=16MHzatmega328",
     "sketch": "Main\\Main.ino",
     "output": "compiled",
-    "port": "COM12"
+    "port": "COM8"
 }

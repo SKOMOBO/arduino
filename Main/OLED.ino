@@ -1,9 +1,9 @@
 #include <SSD1306Ascii.h>
-#include <SSD1306AsciiAvrI2c.h>
+#include <SSD1306AsciiWire.h>
 //
 ////display address 0x3C
 //
-SSD1306AsciiAvrI2c oled;
+SSD1306AsciiWire oled;
 //
 ////bool OLED_connected = false;
 //
