@@ -22,9 +22,10 @@ void readDust(){
   // wait until we receive data!!!!? this is cause of hang probably
 
   // convert to if statement
-  while (dustport.peek()!=66){
+  if (dustport.peek()!=66){
     receiveDat[0]=dustport.read();
   }
+
   dustport.readBytes((char *)receiveDat,receiveDatIndex);
   checkSum = 0;
   for (int i = 0;i < receiveDatIndex;i++){
