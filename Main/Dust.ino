@@ -18,6 +18,10 @@ unsigned int checkSum,checkresult;
 
 
 void readDust(){
+
+  // wait until we receive data!!!!? this is cause of hang probably
+
+  // convert to if statement
   while (dustport.peek()!=66){
     receiveDat[0]=dustport.read();
   }

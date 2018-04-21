@@ -10,8 +10,8 @@ const char *monthName[12] = {
 tmElements_t tm;
 
 void setup() {
-  bool parse=false;
-  bool config=false;
+  bool parse = false;
+  bool config = false;
 
   // get the date and time the compiler was run
   if (getDate(__DATE__) && getTime(__TIME__)) {
