@@ -36,7 +36,14 @@ void readDust(){
 }
 
 byte getData(unsigned int index){
-  return (receiveDat[index]*256)+receiveDat[index + 1];
+
+// returns 0 if invalid
+  if(valid_data){
+    return (receiveDat[index]*256)+receiveDat[index + 1];
+  }
+  else{
+    return 0;
+  }
 }
 
 void Dust_loop(){
