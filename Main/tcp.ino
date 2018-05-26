@@ -135,6 +135,18 @@ void tcpRequest()
     TCP_connect();
   }
   
+#ifndef WIFI_CONNECTION_TEST
   delay(6000);
+#else
+  client2.stop();
+  delay(3000);
+  strncpy_P(Buffer, PSTR("192.168.0.101"), 14);
+  if (client2.connect(Buffer, 10000)) {
+    snprintf_P(Buffer, 11, PSTR("DAEIN_TEST"));
+    client2.print(Buffer);
+    show_P("local Data sent");
+  }  
+  delay(3000);
+#endif
 
 }
