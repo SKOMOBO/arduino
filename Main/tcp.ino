@@ -142,8 +142,9 @@ void tcpRequest()
   delay(3000);
   strncpy_P(Buffer, PSTR("192.168.0.101"), 14);
   if (client2.connect(Buffer, 10000)) {
-    snprintf_P(Buffer, 11, PSTR("DAEIN_TEST"));
-    client2.print(Buffer);
+    send_data2();
+    //snprintf_P(Buffer, 11, PSTR("DAEIN_TEST"));
+    //client2.print(Buffer);
     show_P("local Data sent");
   }  
   delay(3000);
